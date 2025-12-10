@@ -1,4 +1,4 @@
-# ECMA-xxx-CLE (Common Lifecycle Enumeration Specification)
+# ECMA-428 (Common Lifecycle Enumeration Specification)
 
 This repository hosts the work-in-progress technical specification for **Common Lifecycle Enumeration (CLE)**, which is being developed under Ecma International's **Technical Committee 54 (TC54)**. CLE addresses the growing need for a consistent and interoperable mechanism to represent lifecycle stages. As software supply chain management becomes increasingly critical, the ability to reliably communicate lifecycle information across diverse ecosystems is essential for improving security, compliance, and overall efficiency.
 
@@ -10,10 +10,6 @@ This repository serves as the primary workspace for drafting, reviewing, and ref
 - Define a clear, extensible structure for lifecycle events that applies to diverse domains, including software, hardware, and digital assets.
 - Enable consistent communication of lifecycle information across organisational boundaries.
 - Support supply chain transparency, compliance, and risk management practices through reliable lifecycle categorisation.
-
-### Important Note on Repository Name
-
-This repository is currently named `ECMA-xxx-CLE` as a placeholder. Upon ratification of the CLE specification as an Ecma International standard, the repository will be renamed to **`ECMA-xxx`**, where `xxx` represents the number assigned by Ecma to the standard.
 
 ## Contributing
 
