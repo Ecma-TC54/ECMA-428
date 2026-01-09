@@ -8,10 +8,35 @@
         "eventBase": {
             "type": "object",
             "properties": {
-                "id": {},
-                "type": {},
-                "effective": {},
-                "published": {},
+                "id": {
+                    "description": "A unique, auto-incrementing integer identifier for the event.",
+                    "type": "integer",
+                    "minimum": 1
+                },
+                "type": {
+                    "description": "The type of lifecycle event. Must be one of the defined Event Types.",
+                    "enum": [
+                        "released",
+                        "endOfDevelopment",
+                        "endOfSupport",
+                        "endOfLife",
+                        "endOfDistribution",
+                        "endOfMarketing",
+                        "supersededBy",
+                        "componentRenamed",
+                        "withdrawn"
+                    ]
+                },
+                "effective": {
+                    "description": "The time when the event takes effect, as an ISO 8601 formatted timestamp in UTC.",
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "published": {
+                    "description": "The time when the event was first published, as an ISO 8601 formatted timestamp in UTC",
+                    "type": "string",
+                    "format": "date-time"
+                },
                 "version": {},
                 "license": {},
                 "versions": {},
@@ -23,271 +48,162 @@
                 "eventId": {},
                 "reason": {}
             },
+            "required": [
+                "id",
+                "type",
+                "effective",
+                "published"
+            ],
             "additionalProperties": false
         },
         "eventReleased": {
             "type": "object",
-            "allOf": [
-                {
-                    "$ref": "#/$defs/eventBase"
-                },
-                {
-                    "properties": {
-                        "version": {
-                            "description": "The version string of the released component.",
-                            "type": "string"
-                        },
-                        "license": {
-                            "description": "License identifier that summarizes the license as declared in the component's metadata.",
-                            "type": "string"
-                        }
-                    },
-                    "required": [
-                        "version"
-                    ]
-                }
-            ],
             "properties": {
                 "id": {},
                 "type": {},
                 "effective": {},
                 "published": {},
-                "version": {},
-                "license": {}
+                "version": {
+                    "description": "The version string of the released component.",
+                    "type": "string"
+                },
+                "license": {
+                    "description": "License identifier that summarizes the license as declared in the component's metadata.",
+                    "type": "string"
+                }
             },
+            "required": [
+                "version"
+            ],
             "additionalProperties": false
         },
         "eventEndOfDevelopmentSupport": {
             "type": "object",
-            "allOf": [
-                {
-                    "$ref": "#/$defs/eventBase"
-                },
-                {
-                    "properties": {
-                        "versions": {
-                            "description": "Array of version specifications per Annex A.",
-                            "$ref": "#/$defs/versions"
-                        },
-                        "supportId": {
-                            "description": "Reference to a support policy defined in the definitions section.",
-                            "type": "string"
-                        }
-                    },
-                    "required": [
-                        "versions",
-                        "supportId"
-                    ]
-                }
-            ],
             "properties": {
                 "id": {},
                 "type": {},
                 "effective": {},
                 "published": {},
-                "versions": {},
-                "supportId": {}
+                "versions": {
+                    "description": "Array of version specifications per Annex A.",
+                    "$ref": "#/$defs/versions"
+                },
+                "supportId": {
+                    "description": "Reference to a support policy defined in the definitions section.",
+                    "type": "string"
+                }
             },
+            "required": [
+                "versions",
+                "supportId"
+            ],
             "additionalProperties": false
         },
         "eventEndOfLifeDistributionMarketing": {
             "type": "object",
-            "allOf": [
-                {
-                    "$ref": "#/$defs/eventBase"
-                },
-                {
-                    "properties": {
-                        "versions": {
-                            "description": "Array of version specifications per Annex A.",
-                            "$ref": "#/$defs/versions"
-                        }
-                    },
-                    "required": [
-                        "versions"
-                    ]
-                }
-            ],
             "properties": {
                 "id": {},
                 "type": {},
                 "effective": {},
                 "published": {},
-                "versions": {}
+                "versions": {
+                    "description": "Array of version specifications per Annex A.",
+                    "$ref": "#/$defs/versions"
+                }
             },
+            "required": [
+                "versions"
+            ],
             "additionalProperties": false
         },
         "eventSupersededBy": {
             "type": "object",
-            "allOf": [
-                {
-                    "$ref": "#/$defs/eventBase"
-                },
-                {
-                    "properties": {
-                        "supersededByVersion": {
-                            "description": "Plain version string that supersedes it.",
-                            "type": "string"
-                        },
-                        "versions": {
-                            "description": "Array of version specifications per Annex A.",
-                            "$ref": "#/$defs/versions"
-                        }
-                    },
-                    "required": [
-                        "supersededByVersion"
-                    ]
-                }
-            ],
             "properties": {
                 "id": {},
                 "type": {},
                 "effective": {},
                 "published": {},
-                "supersededByVersion": {},
-                "versions": {}
+                "supersededByVersion": {
+                    "description": "Plain version string that supersedes it.",
+                    "type": "string"
+                },
+                "versions": {
+                    "description": "Array of version specifications per Annex A.",
+                    "$ref": "#/$defs/versions"
+                }
             },
+            "required": [
+                "supersededByVersion"
+            ],
             "additionalProperties": false
         },
         "eventComponentRenamed": {
             "type": "object",
-            "allOf": [
-                {
-                    "$ref": "#/$defs/eventBase"
-                },
-                {
-                    "properties": {
-                        "identifiers": {
-                            "description": "Array of identifier objects specifying the new identifiers for the component.",
-                            "$ref": "#/$defs/identifiers"
-                        },
-                        "description": {
-                            "description": "Human-readable description of the event.",
-                            "type": "string"
-                        },
-                        "references": {
-                            "description": "List of URLs to supporting documentation.",
-                            "type": "array",
-                            "uniqueItems": true,
-                            "minItems": 1,
-                            "items": {
-                                "type": "string",
-                                "format": "iri"
-                            }
-                        }
-                    },
-                    "required": [
-                        "identifiers"
-                    ]
-                }
-            ],
             "properties": {
                 "id": {},
                 "type": {},
                 "effective": {},
                 "published": {},
-                "identifiers": {},
-                "description": {},
-                "references": {}
+                "identifiers": {
+                    "description": "Array of identifier objects specifying the new identifiers for the component.",
+                    "$ref": "#/$defs/identifiers"
+                },
+                "description": {
+                    "description": "Human-readable description of the event.",
+                    "type": "string"
+                },
+                "references": {
+                    "description": "List of URLs to supporting documentation.",
+                    "type": "array",
+                    "uniqueItems": true,
+                    "minItems": 1,
+                    "items": {
+                        "type": "string",
+                        "format": "iri"
+                    }
+                }
             },
+            "required": [
+                "identifiers"
+            ],
             "additionalProperties": false
         },
         "eventWithdrawn": {
             "type": "object",
-            "allOf": [
-                {
-                    "$ref": "#/$defs/eventBase"
-                },
-                {
-                    "properties": {
-                        "eventId": {
-                            "description": "The ID of the event being withdrawn.",
-                            "type": "integer",
-                            "minimum": 1
-                        },
-                        "references": {
-                            "description": "List of URLs to supporting documentation.",
-                            "type": "array",
-                            "uniqueItems": true,
-                            "minItems": 1,
-                            "items": {
-                                "type": "string",
-                                "format": "iri"
-                            }
-                        },
-                        "reason": {
-                            "description": "Human-readable explanation for why the event is being withdrawn.",
-                            "type": "string"
-                        }
-                    },
-                    "required": [
-                        "eventId"
-                    ]
-                }
-            ],
             "properties": {
                 "id": {},
                 "type": {},
                 "effective": {},
                 "published": {},
-                "eventId": {},
-                "references": {},
-                "reason": {}
+                "eventId": {
+                    "description": "The ID of the event being withdrawn.",
+                    "type": "integer",
+                    "minimum": 1
+                },
+                "references": {
+                    "description": "List of URLs to supporting documentation.",
+                    "type": "array",
+                    "uniqueItems": true,
+                    "minItems": 1,
+                    "items": {
+                        "type": "string",
+                        "format": "iri"
+                    }
+                },
+                "reason": {
+                    "description": "Human-readable explanation for why the event is being withdrawn.",
+                    "type": "string"
+                }
             },
+            "required": [
+                "eventId"
+            ],
             "additionalProperties": false
         },
         "event": {
             "allOf": [
                 {
-                    "type": "object",
-                    "properties": {
-                        "id": {
-                            "description": "A unique, auto-incrementing integer identifier for the event.",
-                            "type": "integer",
-                            "minimum": 1
-                        },
-                        "type": {
-                            "description": "The type of lifecycle event. Must be one of the defined Event Types.",
-                            "enum": [
-                                "released",
-                                "endOfDevelopment",
-                                "endOfSupport",
-                                "endOfLife",
-                                "endOfDistribution",
-                                "endOfMarketing",
-                                "supersededBy",
-                                "componentRenamed",
-                                "withdrawn"
-                            ]
-                        },
-                        "effective": {
-                            "description": "The time when the event takes effect, as an ISO 8601 formatted timestamp in UTC.",
-                            "type": "string",
-                            "format": "date-time"
-                        },
-                        "published": {
-                            "description": "The time when the event was first published, as an ISO 8601 formatted timestamp in UTC",
-                            "type": "string",
-                            "format": "date-time"
-                        },
-                "version": {},
-                "license": {},
-                "versions": {},
-                "supportId": {},
-                "supersededByVersion": {},
-                "identifiers": {},
-                "description": {},
-                "references": {},
-                "eventId": {},
-                "reason": {}
-                    },
-                    "required": [
-                        "id",
-                        "type",
-                        "effective",
-                        "published"
-                    ],
-                    "additionalProperties": false
+                    "$ref": "#/$defs/eventBase"
                 },
                 {
                     "if": {
