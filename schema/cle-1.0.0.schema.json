@@ -359,11 +359,11 @@
                 "type": "object",
                 "properties": {
                     "type": {
-                        "description": "...",
+                        "description": "The identifier scheme (e.g., PURL for Package-URL).",
                         "type": "string"
                     },
                     "value": {
-                        "description": "...",
+                        "description": "The value of the identifier, corresponding to the type.",
                         "type": "string"
                     }
                 },
