@@ -9,25 +9,25 @@
 </style>
 <pre class="metadata">
   title: Common Lifecycle Enumeration (CLE) specification
-  shortname: ECMA-xxx
+  shortname: ECMA-428
   status: standard
   committee: 54
   date: 2025-12-06
-  location: https://tc54.org/ecmaXXX/
+  location: https://tc54.org/ecma428/
   markEffects: true
   version: 1<sup>st</sup> Edition
 </pre>
 <p><img src="img/ecma-logo.svg" id="ecma-logo" alt="Ecma International logo"></p>
 <div id="metadata-block">
   <h1>About this Standard</h1>
-  <p>The document at <a href="https://tc54.org/ecmaXXX/">https://tc54.org/ecmaXXX/</a> is the most accurate and up-to-date Common Lifecycle Enumeration specification.</p>
+  <p>The document at <a href="https://ecma-tc54.github.io/ECMA-428/">https://ecma-tc54.github.io/ECMA-428/</a> is the most accurate and up-to-date Common Lifecycle Enumeration specification.</p>
   <p>This document is available as <a href>a single page</a> and as <a href="./multipage/">multiple pages</a>.</p>
   <h1>Contributing to this Standard</h1>
   <p>This Standard is developed on GitHub with the help of the OWASP community. There are a number of ways to contribute to the development of this Standard:</p>
   <ul>
-    <li>GitHub Repository: <a href="https://github.com/Ecma-TC54/ECMA-xxx-CLE">https://github.com/Ecma-TC54/ECMA-xxx-CLE</a></li>
-    <li>Issues: <a href="https://github.com/Ecma-TC54/ECMA-xxx-CLE/issues">All Issues</a>, <a href="https://github.com/Ecma-TC54/ECMA-xxx-CLE/issues/new">File a New Issue</a></li>
-    <li>Pull Requests: <a href="https://github.com/Ecma-TC54/ECMA-xxx-CLE/pulls">All Pull Requests</a>, <a href="https://github.com/Ecma-TC54/ECMA-xxx-CLE/pulls/new">Create a New Pull Request</a></li>
+    <li>GitHub Repository: <a href="https://github.com/Ecma-TC54/ECMA-428">https://github.com/Ecma-TC54/ECMA-428</a></li>
+    <li>Issues: <a href="https://github.com/Ecma-TC54/ECMA-428/issues">All Issues</a>, <a href="https://github.com/Ecma-TC54/ECMA-428/issues/new">File a New Issue</a></li>
+    <li>Pull Requests: <a href="https://github.com/Ecma-TC54/ECMA-428/pulls">All Pull Requests</a>, <a href="https://github.com/Ecma-TC54/ECMA-428/pulls/new">Create a New Pull Request</a></li>
     <li>
       Editors:
       <ul>
@@ -73,8 +73,8 @@
   <h1>Normative references</h1>
   <p>The following documents are referred to in the text in such a way that some or all of their content constitutes requirements of this document. For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments) applies.</p>
   <p>
-    ECMA-XXX, <i>Package-URL (PURL) Specification</i><br/>
-    <a href="https://ecma-tc54.github.io/ECMA-xxx-PURL/">https://ecma-tc54.github.io/ECMA-xxx-PURL/</a>
+    ECMA-427, <i>Package-URL (PURL) Specification</i><br/>
+    <a href="https://ecma-tc54.github.io/ECMA-427/">https://ecma-tc54.github.io/ECMA-427/</a>
   </p>
   <p>
     ISO 8601, <i>Date and time — Representations for information interchange</i><br/>
@@ -574,7 +574,7 @@
 </emu-clause>
 
 <emu-annex normative id="sec-vers">
-  <h1>Version Range (VERS) Specification (Inlined)</h1>
+  <h1>Version Range (VERS) specification (inlined)</h1>
 
   <p>This specification is a new syntax for dependency and vulnerable version ranges.</p>
 
@@ -1269,6 +1269,6 @@
 
 <emu-annex id="sec-colophon" back-matter>
   <h1>Colophon</h1>
-  <p>This Standard is authored on <a href="https://github.com/Ecma-TC54/ECMA-xxx-CLE">GitHub</a> in a plaintext source format called <a href="https://github.com/bterlson/ecmarkup">Ecmarkup</a>. Ecmarkup is an HTML and Markdown dialect that provides a framework and toolset for authoring Ecma specifications in plaintext and processing the specification into a full-featured HTML rendering that follows the editorial conventions for this document. Ecmarkup builds on and integrates a number of other formats and technologies including <a href="https://github.com/rbuckton/grammarkdown">Grammarkdown</a> for defining syntax and <a href="https://github.com/domenic/ecmarkdown">Ecmarkdown</a> for authoring algorithm steps. PDF renderings of this Standard are produced using a print stylesheet which takes advantage of the CSS Paged Media specification and is converted using <a href="https://www.princexml.com/">PrinceXML</a>.</p>
+  <p>This Standard is authored on <a href="https://github.com/Ecma-TC54/ECMA-428">GitHub</a> in a plaintext source format called <a href="https://github.com/bterlson/ecmarkup">Ecmarkup</a>. Ecmarkup is an HTML and Markdown dialect that provides a framework and toolset for authoring Ecma specifications in plaintext and processing the specification into a full-featured HTML rendering that follows the editorial conventions for this document. Ecmarkup builds on and integrates a number of other formats and technologies including <a href="https://github.com/rbuckton/grammarkdown">Grammarkdown</a> for defining syntax and <a href="https://github.com/domenic/ecmarkdown">Ecmarkdown</a> for authoring algorithm steps. PDF renderings of this Standard are produced using a print stylesheet which takes advantage of the CSS Paged Media specification and is converted using <a href="https://www.princexml.com/">PrinceXML</a>.</p>
   <p>Prior editions of this Standard were authored using Word—the Ecmarkup source text that formed the basis of this edition was produced by converting the ECMAScript 2015 Word document to Ecmarkup using an automated conversion tool.</p>
 </emu-annex>
