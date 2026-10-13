@@ -293,6 +293,9 @@
     <h1>released</h1>
     <p><i>Category: Version Event</i></p>
     <p>Indicates when a component version is released and available for use.</p>
+    <emu-note>
+      <p>A <code>released</code> event makes no claim about whether the released version is supported; support is only asserted through <emu-xref href="#sec-support-definitions">support policies</emu-xref>. A consumer should not treat a released version that no support policy covers as supported.</p>
+    </emu-note>
     <p><b>Additional Required Fields:</b></p>
     <ul>
       <li><code>version</code> - The version string of the released component</li>
