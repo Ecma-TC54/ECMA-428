@@ -81,6 +81,10 @@
     <a href="https://www.iso.org/standard/70907.html">https://www.iso.org/standard/70907.html</a>
   </p>
   <p>
+    IETF RFC 3339, <i>Date and Time on the Internet: Timestamps</i><br/>
+    <a href="https://www.rfc-editor.org/rfc/rfc3339">https://www.rfc-editor.org/rfc/rfc3339</a>
+  </p>
+  <p>
     JSON Schema Draft 2020-12<br/>
     <a href="https://json-schema.org/draft/2020-12/json-schema-core">https://json-schema.org/draft/2020-12/json-schema-core</a>
   </p>
@@ -160,7 +164,7 @@
           <tr>
             <td><code>updatedAt</code></td>
             <td>string</td>
-            <td>ISO 8601 timestamp indicating when this CLE document was last updated.</td>
+            <td>Timestamp indicating when this CLE document was last updated, in the UTC timestamp format defined in <emu-xref href="#sec-event-object"></emu-xref>.</td>
           </tr>
           <tr>
             <td><code>events</code></td>
@@ -249,6 +253,7 @@
     <h1>Event object</h1>
     <p>The base object that represents a discrete lifecycle event. All events share these common fields.</p>
     <p>Events are immutable once created - the content and meaning of a specific event must not change after it has been published. Additionally, the ordering of events across shards must not change.</p>
+    <p>Every timestamp in a CLE document, including <code>effective</code>, <code>published</code>, and the top-level <code>updatedAt</code>, must be an RFC 3339 <code>date-time</code> (a profile of ISO 8601) in UTC, using the uppercase <code>Z</code> designator rather than a numeric offset; for example, <code>2021-01-15T00:00:00Z</code>.</p>
 
     <emu-table id="table-event-required-fields" caption="Event Required Fields">
       <table>
@@ -273,12 +278,12 @@
           <tr>
             <td><code>effective</code></td>
             <td>string</td>
-            <td>The time when the event takes effect, as an ISO 8601 formatted timestamp in UTC.</td>
+            <td>The time when the event takes effect, as a UTC timestamp.</td>
           </tr>
           <tr>
             <td><code>published</code></td>
             <td>string</td>
-            <td>The time when the event was first published, as an ISO 8601 formatted timestamp in UTC.</td>
+            <td>The time when the event was first published, as a UTC timestamp.</td>
           </tr>
         </tbody>
       </table>
