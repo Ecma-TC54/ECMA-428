@@ -394,7 +394,7 @@
     <p>Indicates that a previously published event is being withdrawn or revoked. This is used in a prepend-only event model where events cannot be modified, only new events can be added. When an event is withdrawn, it should be ignored during processing as if it never existed.</p>
     <p><b>Additional Required Fields:</b></p>
     <ul>
-      <li><code>eventId</code> - The ID of the event being withdrawn</li>
+      <li><code>eventId</code> - The ID of the event being withdrawn. It must reference an existing event whose ID is less than the ID of this <code>withdrawn</code> event.</li>
     </ul>
     <p><b>Additional Optional Fields:</b></p>
     <ul>
@@ -452,6 +452,7 @@
       1. The event referenced by <code>eventId</code> should be ignored as if it never existed.
       1. The withdrawn event itself remains in the history for audit purposes.
       1. Any dependent events or calculations based on the withdrawn event should be recalculated.
+    1. <b>Withdrawal Resolution</b>: Because a <code>withdrawn</code> event can itself be withdrawn, whether an event is withdrawn must be determined from newest to oldest (highest to lowest ID), before any other processing: an event is withdrawn if and only if a <code>withdrawn</code> event that is not itself withdrawn references it. Withdrawing a <code>withdrawn</code> event therefore restores the event it referenced, unless another <code>withdrawn</code> event that is not itself withdrawn also references that event.
   </emu-alg>
 </emu-clause>
 
