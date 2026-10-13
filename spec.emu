@@ -788,6 +788,7 @@
               <li>Remove the comparator from <code>&lt;version-constraint&gt;</code> string start. The remaining string is the version.</li>
             </ul>
           </li>
+          <li>Otherwise, if the <code>&lt;version-constraint&gt;</code> starts with "=", tools must report an error: an equality constraint is written as a bare version, without a comparator.</li>
           <li>Otherwise the version is the full <code>&lt;version-constraint&gt;</code> string (which implies an equality comparator of "=")</li>
           <li>Tools should validate and report an error if the version is empty.</li>
           <li>If the version contains a percent "%" character, apply URL quoting rules to unquote this string.</li>
