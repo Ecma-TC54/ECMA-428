@@ -376,10 +376,10 @@
   <emu-clause id="sec-event-type-componentrenamed">
     <h1>componentRenamed</h1>
     <p><i>Category: Component Event</i></p>
-    <p>Indicates when a component is renamed.</p>
+    <p>Indicates that the component has been renamed. The renamed component's lifecycle is described by its own CLE document, which consumers can find using <code>identifiers</code>. Events in this document apply only to the component this document identifies.</p>
     <p><b>Additional Required Fields:</b></p>
     <ul>
-      <li><code>identifiers</code> - Array of identifier objects specifying the new identifiers for the component</li>
+      <li><code>identifiers</code> - Array of identifier objects identifying the renamed component, whose CLE document consumers should consult</li>
     </ul>
     <p><b>Additional Optional Fields:</b></p>
     <ul>
@@ -424,9 +424,9 @@
 
   <emu-clause id="sec-component-events">
     <h1>Component events</h1>
-    <p>Events that affect the component itself and may impact how the component is identified or referenced. These events often affect all versions of a component from the effective date forward. Component Events include:</p>
+    <p>Events that affect the component itself, rather than specific versions of it. These events often affect all versions of a component from the effective date forward. Component Events include:</p>
     <ul>
-      <li><code>componentRenamed</code> - Changes how the component is identified</li>
+      <li><code>componentRenamed</code> - Points to the CLE document of the component this component was renamed to</li>
     </ul>
   </emu-clause>
 
@@ -557,7 +557,7 @@
     <ul>
       <li><b>General Availability</b>: Track when new versions of a component are released and available for use.</li>
       <li><b>End of Support/End of Life</b>: Communicate when versions will no longer receive updates or support.</li>
-      <li><b>Component Renaming</b>: Handle cases where a component's identifiers change.</li>
+      <li><b>Component Renaming</b>: Point consumers to the CLE document of the component a component was renamed to.</li>
     </ul>
   </emu-clause>
 
