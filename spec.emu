@@ -125,7 +125,7 @@
     <h1>JSON Schema</h1>
     <p>CLE is formally specified by a Draft 2020-12 JSON Schema.</p>
     <p>Each published version of the specification is accompanied by a versioned meta-schema at a stable URI:</p>
-    <pre><code>https://cle.example.com/schema/cle-&lt;major&gt;.&lt;minor&gt;.&lt;patch&gt;.schema.json</code></pre>
+    <pre><code>https://tc54.org/schemas/cle/cle-&lt;major&gt;.&lt;minor&gt;.&lt;patch&gt;.schema.json</code></pre>
     <p>Every CLE document must include a top-level <code>$schema</code> field whose value is the URI of the meta-schema for the version it follows.</p>
     <p>The <code>$schema</code> field serves two purposes:</p>
     <ul>
@@ -309,7 +309,7 @@
     <p>The manufacturer or maintainer ceases work on Substantial Modifications for a specific version or version range of a component or service. Security Fixes and Bug Fixes will continue to be provided for this specific version or version range until endOfSupport is declared, but no new features or enhancements will be added.</p>
     <p><b>Additional Required Fields:</b></p>
     <ul>
-      <li><code>versions</code> - Array of version specifications, per <emu-xref href="#sec-vers"></emu-xref></emu-xref></li>
+      <li><code>versions</code> - Array of version specifications, per <emu-xref href="#sec-vers"></emu-xref></li>
       <li><code>supportId</code> - Reference to a support policy defined in the definitions section</li>
     </ul>
   </emu-clause>
@@ -321,7 +321,7 @@
     <p>The <code>supportId</code> field must be included and used to specify which support policy is ending, referencing a support policy defined in the definitions section.</p>
     <p><b>Additional Required Fields:</b></p>
     <ul>
-      <li><code>versions</code> - Array of version specifications</li>
+      <li><code>versions</code> - Array of version specifications, per <emu-xref href="#sec-vers"></emu-xref></li>
       <li><code>supportId</code> - Reference to a support policy defined in the definitions section</li>
     </ul>
   </emu-clause>
@@ -591,7 +591,7 @@
       For example, to define a set of versions that contains either version `1.2.3`, or any versions greater than or equal to `2.0.0` but less than `5.0.0` using the `node-semver` versioning scheme used with the `npm` Package-URL type, the version range specifier will be:
     </p>
 
-    <pre>vers:npm@1.2.3|&ge;=2.0.0|&lt;5.0.0</pre>
+    <pre>vers:npm/1.2.3|&gt;=2.0.0|&lt;5.0.0</pre>
 
     <p>
       `vers` is the URI-scheme and is an acronym for "VErsion Range Specifier". It has been selected because it is short, obviously about version and available for a future formal URI-scheme registration at IANA. The pipe "|" is used as a simple separator between `&lt;version-constraint&gt;`. Each `&lt;version-constraint&gt;` in this pipe-separated list contains a comparator and a version:
@@ -840,11 +840,11 @@
         <li>Iterate over the constraints list, considering the current and next contiguous constraints, and the previous constraint (e.g., before current) if it exists:
           <ul>
             <li>If current comparator is "&gt;" or "&gt;=" and next comparator is "=", "&gt;" or "&gt;=", discard next constraint</li>
-            <li>If current comparator is "=", "&lt;" or "&lt;=" and next comparator is &lt;" or &lt;=", discard current constraint. Previous constraint becomes current if it exists.</li>
+            <li>If current comparator is "=", "&lt;" or "&lt;=" and next comparator is "&lt;" or "&lt;=", discard current constraint. Previous constraint becomes current if it exists.</li>
             <li>If there is a previous constraint:
               <ul>
                 <li>If previous comparator is "&gt;" or "&gt;=" and current comparator is "=", "&gt;" or "&gt;=", discard current constraint</li>
-                <li>If previous comparator is "=", "&lt;" or "&lt;=" and current comparator is &lt;" or &lt;=", discard previous constraint</li>
+                <li>If previous comparator is "=", "&lt;" or "&lt;=" and current comparator is "&lt;" or "&lt;=", discard previous constraint</li>
               </ul>
             </li>
           </ul>
@@ -860,7 +860,7 @@
       <p>To check if a "tested version" is contained within a version range:</p>
 
       <ul>
-        <li>Start from a parsed a version range specifier with:
+        <li>Start from a parsed version range specifier with:
           <ul>
             <li>a versioning scheme</li>
             <li>a list of constraints of comparator and version, sorted by version and where each version occurs only once in any constraint.</li>
@@ -868,8 +868,8 @@
         </li>
         <li>If the constraint list contains only one item and the comparator is "*", then the "tested version" is IN the range. Check is finished.</li>
         <li>Select the version equality and comparison procedures suitable for this versioning scheme and use these for all version comparisons performed below.</li>
-        <li>If the "tested version" is equal to the any of the constraint versions where the constraint comparator is for equality (any of "=", "&lt;=", or "&gt;=") then the "tested version" is in the range. Check is finished.</li>
-        <li>If the "tested version" is equal to the any of the constraint versions where the constraint comparator is "=!" then the "tested version" is NOT in the range. Check is finished.</li>
+        <li>If the "tested version" is equal to any of the constraint versions where the constraint comparator is for equality (any of "=", "&lt;=", or "&gt;=") then the "tested version" is in the range. Check is finished.</li>
+        <li>If the "tested version" is equal to any of the constraint versions where the constraint comparator is "!=" then the "tested version" is NOT in the range. Check is finished.</li>
         <li>Split the constraint list in two sub lists:
           <ul>
             <li>a first list where the comparator is "=" or "!="</li>
@@ -879,10 +879,10 @@
         <li>Iterate over the current and next contiguous constraints pairs (aka. pairwise) in the second list.</li>
         <li>For each current and next constraint:
           <ul>
-            <li>If this is the first iteration and current comparator is "&lt;" or &lt;=" and the "tested version" is less than the current version then the "tested version" is IN the range. Check is finished.</li>
-            <li>If this is the last iteration and next comparator is "&gt;" or &gt;=" and the "tested version" is greater than the next version then the "tested version" is IN the range. Check is finished.</li>
-            <li>If current comparator is "&gt;" or &gt;=" and next comparator is "&lt;" or &lt;=" and the "tested version" is greater than the current version and the "tested version" is less than the next version then the "tested version" is IN the range. Check is finished.</li>
-            <li>If current comparator is "&lt;" or &lt;=" and next comparator is "&gt;" or &gt;=" then these versions are out the range. Continue to the next iteration.</li>
+            <li>If this is the first iteration and current comparator is "&lt;" or "&lt;=" and the "tested version" is less than the current version then the "tested version" is IN the range. Check is finished.</li>
+            <li>If this is the last iteration and next comparator is "&gt;" or "&gt;=" and the "tested version" is greater than the next version then the "tested version" is IN the range. Check is finished.</li>
+            <li>If current comparator is "&gt;" or "&gt;=" and next comparator is "&lt;" or "&lt;=" and the "tested version" is greater than the current version and the "tested version" is less than the next version then the "tested version" is IN the range. Check is finished.</li>
+            <li>If current comparator is "&lt;" or "&lt;=" and next comparator is "&gt;" or "&gt;=" then these versions are out the range. Continue to the next iteration.</li>
           </ul>
         </li>
         <li>Reaching here without having finished the check before means that the "tested version" is NOT in the range.</li>
@@ -1193,7 +1193,7 @@
   <h1>Example CLE document</h1>
   <pre><code class="json">
 {
-  "$schema": "https://TODO/cle.v1.0.0.json",
+  "$schema": "https://tc54.org/schemas/cle/cle-1.0.0.schema.json",
   "identifier": "pkg:npm/example-component",
   "updatedAt": "2021-01-15T00:00:00Z",
   "definitions": {
