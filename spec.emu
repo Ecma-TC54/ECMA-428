@@ -731,6 +731,7 @@
       <li><b>Constraints are sorted by version</b>. The canonical ordering is the versions order. The ordering of <code>&lt;version-constraint&gt;</code> is not significant otherwise but this sort order is needed when checking if a version is contained in a range.</li>
       <li><b>Versions are unique</b>. Each <code>version</code> must be unique in a range and can occur only once in any <code>&lt;version-constraint&gt;</code> of a range specifier, irrespective of its comparators. Tools must report an error for duplicated versions.</li>
       <li><b>There is only one star</b>: "*" must only occur once and alone in a range, without any other constraint or version.</li>
+      <li><b>Exclusions need something to exclude from</b>: unless the range is "*", it must contain at least one constraint whose comparator is not "!=". A "!=" constraint only removes a version from the intervals defined by the other constraints, so a range made only of "!=" constraints is ambiguous. Tools must report an error for such ranges.</li>
     </ul>
 
     <p>Starting from a de-duplicated and sorted list of constraints, these extra rules apply to the comparators of any two contiguous constraints to be valid:</p>
