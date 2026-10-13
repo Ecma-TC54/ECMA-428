@@ -369,7 +369,7 @@
     </ul>
     <p><b>Additional Optional Fields:</b></p>
     <ul>
-      <li><code>versions</code> - Array of version specifications, per <emu-xref href="#sec-vers"></emu-xref></li>
+      <li><code>versions</code> - Array of version specifications, per <emu-xref href="#sec-vers"></emu-xref>. When absent, the event applies to every version of the component except <code>supersededByVersion</code>.</li>
     </ul>
   </emu-clause>
 
