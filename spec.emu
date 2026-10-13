@@ -246,6 +246,16 @@
           </tbody>
         </table>
       </emu-table>
+
+      <p>A version is <dfn id="covered-by-support-policy">covered</dfn> by a support policy if any <code>endOfDevelopment</code> or <code>endOfSupport</code> event that references that policy's <code>id</code> as its <code>supportId</code>, and that is not withdrawn, includes that version in its <code>versions</code>, regardless of when that event takes effect.</p>
+      <p>At a given time, a version covered by a support policy is, under that policy:</p>
+      <ul>
+        <li><b>unsupported</b>, if an <code>endOfSupport</code> event for that policy that includes the version has taken effect;</li>
+        <li>otherwise, <b>in maintenance</b> (receiving only Security Fixes and Bug Fixes), if an <code>endOfDevelopment</code> event for that policy that includes the version has taken effect;</li>
+        <li>otherwise, <b>supported</b>.</li>
+      </ul>
+      <p>When more than one support policy covers a version, the version's support state is the most favorable of its states under each of those policies: supported if it is supported under any of them; otherwise, in maintenance if it is in maintenance under any of them; otherwise, unsupported. Once an <code>endOfLife</code> event that includes the version has taken effect, the version is unsupported under every policy.</p>
+      <p>A support policy that no event references makes no claim about any version.</p>
     </emu-clause>
   </emu-clause>
 
