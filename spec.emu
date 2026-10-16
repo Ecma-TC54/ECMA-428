@@ -81,6 +81,10 @@
     <a href="https://www.iso.org/standard/70907.html">https://www.iso.org/standard/70907.html</a>
   </p>
   <p>
+    IETF RFC 3339, <i>Date and Time on the Internet: Timestamps</i><br/>
+    <a href="https://www.rfc-editor.org/rfc/rfc3339">https://www.rfc-editor.org/rfc/rfc3339</a>
+  </p>
+  <p>
     JSON Schema Draft 2020-12<br/>
     <a href="https://json-schema.org/draft/2020-12/json-schema-core">https://json-schema.org/draft/2020-12/json-schema-core</a>
   </p>
@@ -160,7 +164,7 @@
           <tr>
             <td><code>updatedAt</code></td>
             <td>string</td>
-            <td>ISO 8601 timestamp indicating when this CLE document was last updated.</td>
+            <td>Timestamp indicating when this CLE document was last updated, in the UTC timestamp format defined in <emu-xref href="#sec-event-object"></emu-xref>.</td>
           </tr>
           <tr>
             <td><code>events</code></td>
@@ -242,6 +246,17 @@
           </tbody>
         </table>
       </emu-table>
+
+      <p>An <code>endOfDevelopment</code> or <code>endOfSupport</code> event references a support policy if its <code>supportId</code> is that policy's <code>id</code>, or is an array that contains that policy's <code>id</code>.</p>
+      <p>A version is <dfn id="covered-by-support-policy">covered</dfn> by a support policy if any <code>endOfDevelopment</code> or <code>endOfSupport</code> event that references that policy, and that is not withdrawn, includes that version in its <code>versions</code>, regardless of when that event takes effect.</p>
+      <p>At a given time, a version covered by a support policy is, under that policy:</p>
+      <ul>
+        <li><b>unsupported</b>, if an <code>endOfSupport</code> event for that policy that includes the version has taken effect;</li>
+        <li>otherwise, <b>in maintenance</b> (receiving only Security Fixes and Bug Fixes), if an <code>endOfDevelopment</code> event for that policy that includes the version has taken effect;</li>
+        <li>otherwise, <b>supported</b>.</li>
+      </ul>
+      <p>When more than one support policy covers a version, the version's support state is the most favorable of its states under each of those policies: supported if it is supported under any of them; otherwise, in maintenance if it is in maintenance under any of them; otherwise, unsupported. Once an <code>endOfLife</code> event that includes the version has taken effect, the version is unsupported under every policy.</p>
+      <p>A support policy that no event references makes no claim about any version.</p>
     </emu-clause>
   </emu-clause>
 
@@ -249,6 +264,7 @@
     <h1>Event object</h1>
     <p>The base object that represents a discrete lifecycle event. All events share these common fields.</p>
     <p>Events are immutable once created - the content and meaning of a specific event must not change after it has been published. Additionally, the ordering of events across shards must not change.</p>
+    <p>Every timestamp in a CLE document, including <code>effective</code>, <code>published</code>, and the top-level <code>updatedAt</code>, must be an RFC 3339 <code>date-time</code> (a profile of ISO 8601) in UTC, using the uppercase <code>Z</code> designator rather than a numeric offset; for example, <code>2021-01-15T00:00:00Z</code>.</p>
 
     <emu-table id="table-event-required-fields" caption="Event Required Fields">
       <table>
@@ -273,12 +289,12 @@
           <tr>
             <td><code>effective</code></td>
             <td>string</td>
-            <td>The time when the event takes effect, as an ISO 8601 formatted timestamp in UTC.</td>
+            <td>The time when the event takes effect, as a UTC timestamp.</td>
           </tr>
           <tr>
             <td><code>published</code></td>
             <td>string</td>
-            <td>The time when the event was first published, as an ISO 8601 formatted timestamp in UTC.</td>
+            <td>The time when the event was first published, as a UTC timestamp.</td>
           </tr>
         </tbody>
       </table>
@@ -309,11 +325,12 @@
   <emu-clause id="sec-event-type-endofdevelopment">
     <h1>endOfDevelopment</h1>
     <p><i>Category: Version Event</i></p>
-    <p>The manufacturer or maintainer ceases work on Substantial Modifications for a specific version or version range of a component or service. Security Fixes and Bug Fixes will continue to be provided for this specific version or version range until endOfSupport is declared, but no new features or enhancements will be added.</p>
+    <p>The manufacturer or maintainer ceases work on Substantial Modifications for a specific version or version range of a component or service. Under each support policy it references, Security Fixes and Bug Fixes will continue to be provided for this specific version or version range until endOfSupport is declared for that support policy, but no new features or enhancements will be added.</p>
+    <p>The <code>supportId</code> field must be included and used to specify which support policy's development is ending, as the <code>id</code> of a support policy defined in the definitions section, or which support policies' development is ending, as an array of one or more distinct such <code>id</code>s.</p>
     <p><b>Additional Required Fields:</b></p>
     <ul>
       <li><code>versions</code> - Array of version specifications, per <emu-xref href="#sec-vers"></emu-xref></li>
-      <li><code>supportId</code> - Reference to a support policy defined in the definitions section</li>
+      <li><code>supportId</code> - Reference to a support policy defined in the definitions section, or an array of one or more distinct such references</li>
     </ul>
   </emu-clause>
 
@@ -321,11 +338,11 @@
     <h1>endOfSupport</h1>
     <p><i>Category: Version Event</i></p>
     <p>The manufacturer or maintainer ceases providing Security Fixes and Bug Fixes for a specific version or version range of a component or service.</p>
-    <p>The <code>supportId</code> field must be included and used to specify which support policy is ending, referencing a support policy defined in the definitions section.</p>
+    <p>The <code>supportId</code> field must be included and used to specify which support policy is ending, as the <code>id</code> of a support policy defined in the definitions section, or which support policies are ending, as an array of one or more distinct such <code>id</code>s.</p>
     <p><b>Additional Required Fields:</b></p>
     <ul>
       <li><code>versions</code> - Array of version specifications, per <emu-xref href="#sec-vers"></emu-xref></li>
-      <li><code>supportId</code> - Reference to a support policy defined in the definitions section</li>
+      <li><code>supportId</code> - Reference to a support policy defined in the definitions section, or an array of one or more distinct such references</li>
     </ul>
   </emu-clause>
 
@@ -369,17 +386,17 @@
     </ul>
     <p><b>Additional Optional Fields:</b></p>
     <ul>
-      <li><code>versions</code> - Array of version specifications, per <emu-xref href="#sec-vers"></emu-xref></li>
+      <li><code>versions</code> - Array of version specifications, per <emu-xref href="#sec-vers"></emu-xref>. When absent, the event applies to every version of the component except <code>supersededByVersion</code>.</li>
     </ul>
   </emu-clause>
 
   <emu-clause id="sec-event-type-componentrenamed">
     <h1>componentRenamed</h1>
     <p><i>Category: Component Event</i></p>
-    <p>Indicates when a component is renamed.</p>
+    <p>Indicates that the component has been renamed. The renamed component's lifecycle is described by its own CLE document, which consumers can find using <code>identifiers</code>. Events in this document apply only to the component this document identifies.</p>
     <p><b>Additional Required Fields:</b></p>
     <ul>
-      <li><code>identifiers</code> - Array of identifier objects specifying the new identifiers for the component</li>
+      <li><code>identifiers</code> - Array of identifier objects identifying the renamed component, whose CLE document consumers should consult</li>
     </ul>
     <p><b>Additional Optional Fields:</b></p>
     <ul>
@@ -394,7 +411,7 @@
     <p>Indicates that a previously published event is being withdrawn or revoked. This is used in a prepend-only event model where events cannot be modified, only new events can be added. When an event is withdrawn, it should be ignored during processing as if it never existed.</p>
     <p><b>Additional Required Fields:</b></p>
     <ul>
-      <li><code>eventId</code> - The ID of the event being withdrawn</li>
+      <li><code>eventId</code> - The ID of the event being withdrawn. It must reference an existing event whose ID is less than the ID of this <code>withdrawn</code> event.</li>
     </ul>
     <p><b>Additional Optional Fields:</b></p>
     <ul>
@@ -424,9 +441,9 @@
 
   <emu-clause id="sec-component-events">
     <h1>Component events</h1>
-    <p>Events that affect the component itself and may impact how the component is identified or referenced. These events often affect all versions of a component from the effective date forward. Component Events include:</p>
+    <p>Events that affect the component itself, rather than specific versions of it. These events often affect all versions of a component from the effective date forward. Component Events include:</p>
     <ul>
-      <li><code>componentRenamed</code> - Changes how the component is identified</li>
+      <li><code>componentRenamed</code> - Points to the CLE document of the component this component was renamed to</li>
     </ul>
   </emu-clause>
 
@@ -452,6 +469,7 @@
       1. The event referenced by <code>eventId</code> should be ignored as if it never existed.
       1. The withdrawn event itself remains in the history for audit purposes.
       1. Any dependent events or calculations based on the withdrawn event should be recalculated.
+    1. <b>Withdrawal Resolution</b>: Because a <code>withdrawn</code> event can itself be withdrawn, whether an event is withdrawn must be determined from newest to oldest (highest to lowest ID), before any other processing: an event is withdrawn if and only if a <code>withdrawn</code> event that is not itself withdrawn references it. Withdrawing a <code>withdrawn</code> event therefore restores the event it referenced, unless another <code>withdrawn</code> event that is not itself withdrawn also references that event.
   </emu-alg>
 </emu-clause>
 
@@ -556,7 +574,7 @@
     <ul>
       <li><b>General Availability</b>: Track when new versions of a component are released and available for use.</li>
       <li><b>End of Support/End of Life</b>: Communicate when versions will no longer receive updates or support.</li>
-      <li><b>Component Renaming</b>: Handle cases where a component's identifiers change.</li>
+      <li><b>Component Renaming</b>: Point consumers to the CLE document of the component a component was renamed to.</li>
     </ul>
   </emu-clause>
 
@@ -731,6 +749,7 @@
       <li><b>Constraints are sorted by version</b>. The canonical ordering is the versions order. The ordering of <code>&lt;version-constraint&gt;</code> is not significant otherwise but this sort order is needed when checking if a version is contained in a range.</li>
       <li><b>Versions are unique</b>. Each <code>version</code> must be unique in a range and can occur only once in any <code>&lt;version-constraint&gt;</code> of a range specifier, irrespective of its comparators. Tools must report an error for duplicated versions.</li>
       <li><b>There is only one star</b>: "*" must only occur once and alone in a range, without any other constraint or version.</li>
+      <li><b>Exclusions need something to exclude from</b>: unless the range is "*", it must contain at least one constraint whose comparator is not "!=". A "!=" constraint only removes a version from the intervals defined by the other constraints, so a range made only of "!=" constraints is ambiguous. Tools must report an error for such ranges.</li>
     </ul>
 
     <p>Starting from a de-duplicated and sorted list of constraints, these extra rules apply to the comparators of any two contiguous constraints to be valid:</p>
@@ -787,6 +806,7 @@
               <li>Remove the comparator from <code>&lt;version-constraint&gt;</code> string start. The remaining string is the version.</li>
             </ul>
           </li>
+          <li>Otherwise, if the <code>&lt;version-constraint&gt;</code> starts with "=", tools must report an error: an equality constraint is written as a bare version, without a comparator.</li>
           <li>Otherwise the version is the full <code>&lt;version-constraint&gt;</code> string (which implies an equality comparator of "=")</li>
           <li>Tools should validate and report an error if the version is empty.</li>
           <li>If the version contains a percent "%" character, apply URL quoting rules to unquote this string.</li>
@@ -877,6 +897,14 @@
           <ul>
             <li>a first list where the comparator is "=" or "!="</li>
             <li>a second list where the comparator is neither "=" nor "!="</li>
+          </ul>
+        </li>
+        <li>If the second list is empty, then the "tested version" is NOT in the range. Check is finished.</li>
+        <li>If the second list contains exactly one constraint, there are no contiguous pairs to iterate over:
+          <ul>
+            <li>If its comparator is "&gt;" or "&gt;=" and the "tested version" is greater than its version, then the "tested version" is IN the range. Check is finished.</li>
+            <li>If its comparator is "&lt;" or "&lt;=" and the "tested version" is less than its version, then the "tested version" is IN the range. Check is finished.</li>
+            <li>Otherwise, the "tested version" is NOT in the range. Check is finished.</li>
           </ul>
         </li>
         <li>Iterate over the current and next contiguous constraints pairs (aka. pairwise) in the second list.</li>
