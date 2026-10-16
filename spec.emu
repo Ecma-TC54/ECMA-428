@@ -247,7 +247,8 @@
         </table>
       </emu-table>
 
-      <p>A version is <dfn id="covered-by-support-policy">covered</dfn> by a support policy if any <code>endOfDevelopment</code> or <code>endOfSupport</code> event that references that policy's <code>id</code> as its <code>supportId</code>, and that is not withdrawn, includes that version in its <code>versions</code>, regardless of when that event takes effect.</p>
+      <p>An <code>endOfDevelopment</code> or <code>endOfSupport</code> event references a support policy if its <code>supportId</code> is that policy's <code>id</code>, or is an array that contains that policy's <code>id</code>.</p>
+      <p>A version is <dfn id="covered-by-support-policy">covered</dfn> by a support policy if any <code>endOfDevelopment</code> or <code>endOfSupport</code> event that references that policy, and that is not withdrawn, includes that version in its <code>versions</code>, regardless of when that event takes effect.</p>
       <p>At a given time, a version covered by a support policy is, under that policy:</p>
       <ul>
         <li><b>unsupported</b>, if an <code>endOfSupport</code> event for that policy that includes the version has taken effect;</li>
@@ -324,12 +325,12 @@
   <emu-clause id="sec-event-type-endofdevelopment">
     <h1>endOfDevelopment</h1>
     <p><i>Category: Version Event</i></p>
-    <p>The manufacturer or maintainer ceases work on Substantial Modifications for a specific version or version range of a component or service. Security Fixes and Bug Fixes will continue to be provided for this specific version or version range until endOfSupport is declared for the same support policy, but no new features or enhancements will be added.</p>
-    <p>The <code>supportId</code> field must be included and used to specify which support policy's development is ending, referencing a support policy defined in the definitions section.</p>
+    <p>The manufacturer or maintainer ceases work on Substantial Modifications for a specific version or version range of a component or service. Under each support policy it references, Security Fixes and Bug Fixes will continue to be provided for this specific version or version range until endOfSupport is declared for that support policy, but no new features or enhancements will be added.</p>
+    <p>The <code>supportId</code> field must be included and used to specify which support policy's development is ending, as the <code>id</code> of a support policy defined in the definitions section, or which support policies' development is ending, as an array of one or more distinct such <code>id</code>s.</p>
     <p><b>Additional Required Fields:</b></p>
     <ul>
       <li><code>versions</code> - Array of version specifications, per <emu-xref href="#sec-vers"></emu-xref></li>
-      <li><code>supportId</code> - Reference to a support policy defined in the definitions section</li>
+      <li><code>supportId</code> - Reference to a support policy defined in the definitions section, or an array of one or more distinct such references</li>
     </ul>
   </emu-clause>
 
@@ -337,11 +338,11 @@
     <h1>endOfSupport</h1>
     <p><i>Category: Version Event</i></p>
     <p>The manufacturer or maintainer ceases providing Security Fixes and Bug Fixes for a specific version or version range of a component or service.</p>
-    <p>The <code>supportId</code> field must be included and used to specify which support policy is ending, referencing a support policy defined in the definitions section.</p>
+    <p>The <code>supportId</code> field must be included and used to specify which support policy is ending, as the <code>id</code> of a support policy defined in the definitions section, or which support policies are ending, as an array of one or more distinct such <code>id</code>s.</p>
     <p><b>Additional Required Fields:</b></p>
     <ul>
       <li><code>versions</code> - Array of version specifications, per <emu-xref href="#sec-vers"></emu-xref></li>
-      <li><code>supportId</code> - Reference to a support policy defined in the definitions section</li>
+      <li><code>supportId</code> - Reference to a support policy defined in the definitions section, or an array of one or more distinct such references</li>
     </ul>
   </emu-clause>
 
